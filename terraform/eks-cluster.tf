@@ -4,23 +4,19 @@ module "eks" {
 
   cluster_name    = "my-cluster"
   cluster_version = "1.29"
-  subnet_ids      = module.vpc.private_subnets
-  vpc_id          = module.vpc.vpc_id
+  vpc_id          = "vpc-0111d68618fb8f00b"
 
-  enable_irsa = true
+  subnet_ids = [
+    "subnet-03c7158732a1d031e", # gitops-vpc-private-us-east-1a (10.0.3.0/24)
+    "subnet-028e06d85d768a94b", # gitops-vpc-private-us-east-1b (10.0.4.0/24)
+  ]
 
   eks_managed_node_groups = {
     default = {
-      desired_size = 2
-      min_size     = 1
-      max_size     = 3
-
+      desired_size   = 2
+      max_size       = 3
+      min_size       = 1
       instance_types = ["t3.medium"]
-
-      # Optional but recommended for permissions
-      iam_role_additional_policies = {
-        ecr_read = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-      }
     }
   }
 }
