@@ -6,13 +6,17 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP  # Ingress will expose it; no need for LoadBalancer
+  type: ClusterIP
   port: 80
-
-resources: {}
 
 ingress:
   enabled: true
-  host: frontend.local  # Temporary/dev-only placeholder. Replace if needed.
-  path: /
-  pathType: Prefix
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - host: react-app.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
