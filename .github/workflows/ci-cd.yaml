@@ -9,6 +9,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 👈 Define GITHUB_TOKEN here
+
     steps:
     - name: 📥 Checkout code
       uses: actions/checkout@v2
